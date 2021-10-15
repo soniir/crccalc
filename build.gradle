@@ -1,0 +1,82 @@
+apply plugin: 'java'
+apply plugin: 'signing'
+//apply plugin: 'jacoco'
+apply plugin: 'maven'
+
+group = 'ru.soniir'
+archivesBaseName = 'crccalc'
+version=1.0
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+signing {
+    sign configurations.archives
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            // Sign POM
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            // Destination
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            // Add required metadata to POM
+            pom.project {
+                name 'CRC calculator'
+                packaging 'jar'
+                description 'CRC calculator with many popularity algorithm include CRC8/16/32/64'
+                url 'https://github.com/soniir/crccalc.git'
+
+                scm {
+                    connection 'scm:git:git://github.com/soniir/crccalc.git'
+                    developerConnection 'scm:git:ssh://github.com/soniir/crccalc.git'
+                    url 'http://github.com/soniir/crccalc/tree/master'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'minaev'
+                        name 'Anton Minaev'
+                        email 'minaev.aa@soniir.ru'
+                        organization 'soniir'
+                        organizationUrl 'https://soniir.ru'
+                    }
+                }
+            }
+        }
+    }
+}
