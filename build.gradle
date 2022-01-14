@@ -5,14 +5,14 @@ apply plugin: 'maven'
 
 group = 'ru.soniir'
 archivesBaseName = 'crccalc'
-version=1.0
+version=1.1
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13.2'
 }
 
 signing {
