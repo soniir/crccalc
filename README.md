@@ -33,13 +33,13 @@ System.out.println(String.format("CRC16/MY_ALG: 0x%04x", checksum));
 
 ### Gradle
 ```
-implementation 'ru.soniir:crccalc:1.0'
+implementation 'ru.soniir:crccalc:1.1'
 ```
 ### Maven
 ```
 <dependency>
   <groupId>ru.soniir</groupId>
   <artifactId>crccalc</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
 </dependency>
 ```
